@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
-from django.contrib.auth.models import PermissionMixin
+from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 
 class UserProfileManager(BaseUserManager):
@@ -15,7 +15,8 @@ class UserProfileManager(BaseUserManager):
         user = self.model(email=email,name=name)
 
         user.set_password(password)
-        user.save(using=self._db)  """SOP for saving object in database"""
+        user.save(using=self._db)
+        """SOP for saving object in database"""
 
         return user
 
@@ -30,11 +31,11 @@ class UserProfileManager(BaseUserManager):
         return user
 
 
-class UserProfile(AbstractBaseUser, PermissionMixin):
+class UserProfile(AbstractBaseUser, PermissionsMixin):
     """Database model for users in the system"""
 
-    email = models.EMAILFIELD(max_length=255, unique=True)
-    name = models.ChartField(max_length=255)
+    email = models.EmailField(max_length=255,unique=True)
+    name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
